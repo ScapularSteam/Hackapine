@@ -14,15 +14,15 @@ async def scan_device(found_devices):
         if str(devices[device][1].service_uuids) == pinecil_service_UUID:
             found_devices.append(device)
 
-    if devices == []:
-        sys.exit('No pinecils found, please check that Bluetooth is enabled under "Advanced Settings" on your pinecil')
-
 # Select which pinecil to connect to, automatic if 1 device, user choice if > 1 device
 def select_device(found_devices):
 
     if len(found_devices) == 1:
         print("Found 1 Pinecil: ", (found_devices[0]))
         return found_devices[0]
+    
+    elif len(found_devices) == 0:
+        sys.exit('No pinecils found, please check that Bluetooth is enabled under "Advanced Settings" on your pinecil')
     
     else:
         while True:
