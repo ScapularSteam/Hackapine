@@ -54,6 +54,8 @@ async def connect_device(pinecil):
         for service in services:
             print(service)
 
+        # TODO - Extract accelerometer data
+
 # Connect with pinecil
 asyncio.run(connect_device(pinecil))
 
