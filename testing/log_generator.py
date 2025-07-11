@@ -25,6 +25,8 @@ while True:
     newMotion = asyncio.run(my_Pinecil.read_motion())
     if motion != asyncio.run(my_Pinecil.read_motion()):
         print('Motion value has changed from ', motion , "to", newMotion)
+    else:
+        print('Motion Unchanged')
     if i >= 10:
         break
     i = i+1

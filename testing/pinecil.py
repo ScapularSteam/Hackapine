@@ -62,13 +62,14 @@ class Pinecil():
     
     # Fetches little endian byte array from Motion Service and converts to integer
     async def read_motion(self):
+        try:
+            async with BleakClient(self.device) as client:
 
-        async with BleakClient(self.device) as client:
-
-            motion_raw = await client.read_gatt_char(self._pinecil_UUID_movement_service)
-            motion = int.from_bytes(motion_raw, byteorder='little', signed= False)
-            return motion
-
+                motion_raw = await client.read_gatt_char(self._pinecil_UUID_movement_service)
+                motion = int.from_bytes(motion_raw, byteorder='little', signed= False)
+                return motion
+        except:
+            print("Connection Failed")
 # Check to see if script is working properly
 def test():
     myPinecil = Pinecil()
