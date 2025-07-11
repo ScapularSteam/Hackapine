@@ -6,9 +6,9 @@ A bridge to enable Hack Clubbers to log time spent soldering with the PinecilV2 
 
 [x] Make a Python module to connect to and gather data from the PinecilV2.
 
-[WIP] Detect changes in motion and trigger relevant Wakatime functions
+[WIP] Detect changes in motion and trigger relevant events
 
-[ ] Handle Wakatime functions and send heartbeat to Hackatime.
+[ ] Create events and send heartbeat to Wakatime CLI
 
 ## Using the pinecil.py module
 
