@@ -71,9 +71,17 @@ class Pinecil():
             raise Exception("Failed to disconnect, please try again later")
 
     # Fetches little endian byte array from Temperature Service and converts to integer
-    async def read_temperature():
-        print('TODO')
+    async def read_temperature(self):
+
+        async with BleakClient(self.device) as client:
+            temperature_raw = await client.read_gatt_char(self._pinecil_UUID_temperature_service)
+            temperature = int.from_bytes(temperature_raw, byteorder='little', signed= False)
+            return temperature
     
     # Fetches little endian byte array from Motion Service and converts to integer
-    async def read_motion():
-        print('TODO')
+    async def read_motion(self):
+
+        async with BleakClient(self.device) as client:
+            motion_raw = await client.read_gatt_char(self._pinecil_UUID_movement_service)
+            motion = int.from_bytes(motion_raw, byteorder='little', signed= False)
+            return motion
