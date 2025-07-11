@@ -68,13 +68,18 @@ class Pinecil():
             motion_raw = await client.read_gatt_char(self._pinecil_UUID_movement_service)
             motion = int.from_bytes(motion_raw, byteorder='little', signed= False)
             return motion
-        
-myPinecil = Pinecil()
-print("==========\nTesting scan()\n==========")
-asyncio.run(myPinecil.scan())
-print("==========\nTesting connect()\n==========")
-asyncio.run(myPinecil.select())
-print("==========\nTesting read_temperature()\n==========")
-print(asyncio.run(myPinecil.read_temperature()))
-print("==========\nTesting read_motion()\n==========")
-print(asyncio.run(myPinecil.read_motion()))
+
+# Check to see if script is working properly
+def test():
+    myPinecil = Pinecil()
+    print("==========\nTesting scan()\n==========")
+    asyncio.run(myPinecil.scan())
+    print("Scan complete")
+    print("==========\nTesting connect()\n==========")
+    asyncio.run(myPinecil.select())
+    print("==========\nTesting read_temperature()\n==========")
+    print(asyncio.run(myPinecil.read_temperature()))
+    print("==========\nTesting read_motion()\n==========")
+    print(asyncio.run(myPinecil.read_motion()))
+
+test()
