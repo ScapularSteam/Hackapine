@@ -34,7 +34,7 @@ class Pinecil():
                 raise Exception("No Pinecils were found, try scanning again or check if Bluetooth is enabled under your Pinecil's Advanced Settings")
             case 1:
                 print("One Pinecil found, MAC Address: ", self._found_devices[0])
-                return self._found_devices[0]
+                self.device = self._found_devices[0]
             case _:
                 print(num_devices_found, " Pinecils found:")
                 i = 1
@@ -53,13 +53,15 @@ class Pinecil():
                     else:
                         self.device = self._found_devices[(choice-1)]
             
-            # Establish connection with Pinecil
-        try:
-            print("Attempting to connect to Pinecil ", device)
-            await BleakClient(self.device).connect()
-            print("Successfully connected!")
-        except:
-            raise Exception("Failed to connect, please try again later")
+        # Establish connection with Pinecil
+        
+        #try:
+        #    print("Attempting to connect to Pinecil", self.device)
+        #    await BleakClient(self.device).connect()
+        #    print("Successfully connected!")
+        #except:
+        #    raise Exception("Failed to connect, please try again later")
+        
 
     # Disconnects from connected Pinecil
     async def disconnect(self):
@@ -82,6 +84,19 @@ class Pinecil():
     async def read_motion(self):
 
         async with BleakClient(self.device) as client:
+
             motion_raw = await client.read_gatt_char(self._pinecil_UUID_movement_service)
             motion = int.from_bytes(motion_raw, byteorder='little', signed= False)
             return motion
+        
+myPinecil = Pinecil()
+print("==========\nTesting scan()\n==========")
+asyncio.run(myPinecil.scan())
+print("==========\nTesting connect()\n==========")
+asyncio.run(myPinecil.connect())
+print("==========\nTesting read_temperature()\n==========")
+print(asyncio.run(myPinecil.read_temperature()))
+print("==========\nTesting read_motion()\n==========")
+print(asyncio.run(myPinecil.read_motion()))
+print("==========\nTesting disconnect()\n==========")
+asyncio.run(myPinecil.disconnect())
