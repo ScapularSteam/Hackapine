@@ -1,7 +1,6 @@
 # Import dependencies
 import asyncio
 from bleak import BleakClient, BleakScanner
-import sys
 
 # Create class for discovering and fetching data from Pinecils in BLE 
 class Pinecil():
@@ -24,8 +23,8 @@ class Pinecil():
             if str(devices[d][1].service_uuids) == self._pinecil_service_UUID:
                 self._found_devices.append(d)
         
-    # Selects desired Pinecil from found_devices[] and establishes a BLE connection
-    async def connect(self):
+    # Selects desired Pinecil from found_devices[] and assigns to device
+    async def select(self):
 
         # Select Pinecil from available options
         num_devices_found = len(self._found_devices)
@@ -52,25 +51,6 @@ class Pinecil():
                         raise Exception("User cancelled operation")
                     else:
                         self.device = self._found_devices[(choice-1)]
-            
-        # Establish connection with Pinecil
-        
-        #try:
-        #    print("Attempting to connect to Pinecil", self.device)
-        #    await BleakClient(self.device).connect()
-        #    print("Successfully connected!")
-        #except:
-        #    raise Exception("Failed to connect, please try again later")
-        
-
-    # Disconnects from connected Pinecil
-    async def disconnect(self):
-
-        try:
-            await BleakClient(self.device).disconnect()
-            print("Sucessfully disconnected from Pinecil", self.device)
-        except:
-            raise Exception("Failed to disconnect, please try again later")
 
     # Fetches little endian byte array from Temperature Service and converts to integer
     async def read_temperature(self):
@@ -93,10 +73,8 @@ myPinecil = Pinecil()
 print("==========\nTesting scan()\n==========")
 asyncio.run(myPinecil.scan())
 print("==========\nTesting connect()\n==========")
-asyncio.run(myPinecil.connect())
+asyncio.run(myPinecil.select())
 print("==========\nTesting read_temperature()\n==========")
 print(asyncio.run(myPinecil.read_temperature()))
 print("==========\nTesting read_motion()\n==========")
 print(asyncio.run(myPinecil.read_motion()))
-print("==========\nTesting disconnect()\n==========")
-asyncio.run(myPinecil.disconnect())
